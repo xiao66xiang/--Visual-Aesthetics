@@ -1,0 +1,85 @@
+
+<html lang="en">
+
+  <head>
+    <title>Visual Aesthetic</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css')}} " >        
+  </head>
+
+  <body style="background: #f2f3f4">
+    <div class="container-fluid text-center">
+
+      <div class="row" style="height:12%;  background-color: #5f5f5f;">
+        <div class="col-md-12">
+          <h1 style="color:ffffff;">  Computing Aesthetic of a Graphical Query Interface  </h1>
+        </div>
+      </div>
+
+      <div class="row" >
+
+        <div class="col-md-3" >
+          <div class="left-column">              
+
+            <div class="row" >
+              <div class="instruction-text" >
+                <strong>Analysis result </strong><br>
+                          1.Words: {{ result[0]}}<br>
+                          2.Images: {{ result[1]}}<br>
+                          3.TLCs: {{ result[2]}}<br>
+              </div> 
+            </div>
+
+            <div class="row"> <div class="line"> </div> </div>
+
+            <div class="row">
+              <div class="instruction-text" >
+                4.Visual Complexity: {{ result[3]}}
+              </div>
+            </div>
+
+            <div class="row"> <div class="line"> </div> </div>
+
+            <div class="row">
+              <div class="instruction-text" >
+                5.Aesthetic Score: <br>
+                <input type="number" name="score" id="score" class="rating" data-max="5" data-min="1" data-readonly value="{{result[4]}}"/>    
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="line"></div>
+            </div>
+
+            <div class="row">    
+              <form action="Explanation" method="post" enctype="multipart/form-data" name="myform">          
+                <button type="submit" class="btn btn-primary" style="margin-top:60px; position: relative; vertical-align:middle ;">Explanation</button>
+              </form>
+            </div>
+
+            <div class="row">              
+              <a class="btn btn-primary" href= "/" role="button" style="margin-top:60px" >Back to Main</a>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <div class="uploader"  >     
+               
+            <img class="img-responsive" src= "{{ url_for('image',filename=result[5])}}" /> 
+          
+          </div>
+        </div>
+
+      </div>      
+    </div>
+        
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script> 
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-rating-input.min.js') }}" ></script>
+   
+   
+  </body>
+
+</html>
+ 

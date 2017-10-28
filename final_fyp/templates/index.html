@@ -1,0 +1,58 @@
+
+<html lang="en">
+
+  <head>
+    <title>Visual Aesthetic</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css')}} " >
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/cropper.css')}} " >       
+  </head>
+
+  <body style="background: #f2f3f4">
+    <div class="container-fluid text-center">
+
+      <div class="row" style="height:12%;  background-color: #5f5f5f;">        
+        <div class="col-md-12">
+          <h1 style="color:ffffff;">  Computing Aesthetic of a Graphical Query Interface  </h1>
+        </div>
+      </div>
+
+      <form action="uploaded" method="post" enctype="multipart/form-data" name="myform">
+        <div class="row" >
+
+          <div class="col-md-3" >
+            <div class="left-column">              
+              <div class="row" >
+                <div class="instruction-text">
+                  <strong>Instruction of the website: </strong><br>
+                  <strong>1/</strong> Upload screenshot of a Graphical Query Interface <br>
+                  <strong>2/</strong> To have a good result, the screen shot of Graphical Query Interface must be clean and focus 
+                                      Query interface only 
+                </div> 
+              </div>
+              <div class="row"> <div class="line"></div> </div>
+              <div class="row">
+                  <button type="submit" class="btn btn-primary" style="margin-top:60px; position: relative; vertical-align:middle ;">Process Image</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-9">
+            <div class="uploader" onclick="$('.filePhoto').click()">            
+              <h1 class="hide-text">Choose a file or drag it here.</h1>              
+              <input type="file" name="uploadedPhoto"  id="filePhoto" class="filePhoto img-upload"/>
+              <img src=""/>          
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+    </div>    
+    <script type="text/javascript" src="{{ url_for('static', filename='js/uploadr.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/cropper.js') }}"></script>       
+  </body>
+  
+</html>
+ 
