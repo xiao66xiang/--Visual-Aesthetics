@@ -9,7 +9,7 @@ import numpy as np
 import cv2
 import re
 import utility
-from utility import image_preprocess, detect_objects, detect_words_images, detect_TLCs, score
+from utility import image_preprocess, detect_objects, detect_TLCs, score
 from flask import Response
 
 ############# Flask Web Applicantion Start Here ##############
@@ -90,10 +90,8 @@ def uploaded_file(filename):
 
     edged = image_preprocess(imCv2)
     
-    total_objects = detect_objects(imCv2,edged)
- #   print(total_objects)
-    total_words,total_images,words_size,images_size = detect_words_images(total_objects)
-    total_TLCs = detect_TLCs(filename,imCv2,edged)
+    total_words,total_images,words_size,images_size = detect_objects(filename,imCv2,edged)
+    total_TLCs = detect_TLCs(imCv2,edged)
 
     # apply formular for Visual Complexity
     vs = round(1.743 + 0.097*total_TLCs + 0.00053*words_size/total_words + 0.00003*images_size/total_images,2)

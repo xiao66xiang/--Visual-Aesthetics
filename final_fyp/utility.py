@@ -23,14 +23,20 @@ def image_preprocess(image):
 
     return edged
 
-def detect_objects(image,edged):
-    
+def detect_objects(filename,image,edged):
+    listW = []
+
+    #number of images
+    total_images = 0
+    words_size = 0
+    images_size = 0
     
   
     # find contours    
     im2,cnts, hierarchy = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL,
                                  cv2.CHAIN_APPROX_SIMPLE)
 
+    exp = image.copy()
     #store object detected
     total = []
 
@@ -39,49 +45,39 @@ def detect_objects(image,edged):
         if w>7 and h>7:            
             new_img=image[y:y+h,x:x+w]
             total.append(new_img)
-    
-    return total
+            im = Image.fromarray(np.asarray(new_img))
+            width, height = im.size
+            # detect words in image
+            word = pytesseract.image_to_string(im)
+            word = re.sub(r'[^\w]', ' ', word)        
+            if len(word)>1:
+                words_size+=width*height
+                cv2.rectangle(exp, (x+1,y+1), (x+w-1,y+h-1), (0, 0, 255), 1)
+                l = word.split(' ')
+                for i in l:                
+                    if len(i)>1 and i.isalpha():
+                        listW.append(i)
+            #else, object is image                    
+            else: 
+                total_images+=1
+                images_size+=width*height
+                cv2.rectangle(exp, (x+1,y+1), (x+w-1,y+h-1), (0, 255, 0), 1)
 
-
-def detect_words_images(total):    
-    listW = []
-
-    #number of images
-    total_images = 0
-    words_size = 0
-    images_size = 0
-
-    # loop objects detected by contour function to detect images, words
-    for i in total:        
-        im = Image.fromarray(np.asarray(i))
-        width, height = im.size
-        # detect words in image
-        word = pytesseract.image_to_string(im)
-        word = re.sub(r'[^\w]', ' ', word)        
-        if len(word)>1:
-            words_size+=width*height
-            l = word.split(' ')
-            for i in l:                
-                if len(i)>1 and i.isalpha():
-                    listW.append(i)
-        #else, object is image                    
-        else: 
-            total_images+=1
-            images_size+=width*height
-        
+    cv2.imwrite(os.path.join('upload', filename+'dilation.png'),exp)
     listW = filter(lambda a: a!='',listW)           
     total_words = len(listW)
     
     return total_words,total_images,words_size,images_size
+          
                 
 
-def detect_TLCs(filename,image,edged):
+def detect_TLCs(image,edged):
 
    
     #Dilating edged to create blocks of white color
     kernel = np.ones((5,5),np.uint8)
     dilation = cv2.dilate(edged, kernel, iterations = 3)
-    cv2.imwrite(os.path.join('upload', filename+'dilation.png'),dilation)   
+    
     # find contours
     #total number of objects found
     im2,cnts, hierarchy = cv2.findContours(dilation.copy(), cv2.RETR_EXTERNAL,
